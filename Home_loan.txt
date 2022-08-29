@@ -1,0 +1,40 @@
+def validateUser():
+    userid=input("User ID: ")
+    file = open("Login_Customer.txt", "r")
+    data= file.readlines()
+    DATA=[]
+    for line in data:
+        arr=line.split(',')
+        DATA.append(arr)
+    customer=[]
+    for i in range(len(DATA)):
+        if DATA[i][0]==userid:
+            customer=DATA[i]
+            customer[1]=customer[1][:-1]
+            pswd=input("Password: ")
+            if pswd==customer[1]:
+                file = open("Registered_Customer.txt", "r")
+                data= file.readlines()
+                DATA=[]
+                for line in data:
+                    arr=line.split(' ')
+                    DATA.append(arr)
+                boolean=False
+                customer=[]
+                for i in range(len(DATA)):
+                    if DATA[i][0]==userid:
+                        customer=DATA[i]
+                        if (customer[4]=='Approved' or customer[4]=='approved'):
+                            boolean=True
+                if not boolean:
+                    print("Account approval pending")
+                    return 
+                else:
+                    approvedCustomer(userid)
+                    return boolean
+            else:
+                print("Invalid credentials, Enter again.")
+                return boolean
+        if not customer:
+            print("Invalid User ID ")
+            return boolean    
